@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 		description = "Login Servlet Testing",
 		urlPatterns = {"/LoginServlet"},
 		initParams = {
-				@WebInitParam(name = "user", value = "Sakshat"),
+				@WebInitParam(name = "username", value = "Sakshat"),
 				@WebInitParam(name = "password", value = "Password")
 		}
 )
@@ -32,15 +32,22 @@ public class LoginServlet extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Getting request parameters
-		String user = request.getParameter("user");
+		String user = request.getParameter("username");
 		String password = request.getParameter("password");
 
 		//getting servlet config init parameters
-		String userID = getServletConfig().getInitParameter("user");
+		String userID = getServletConfig().getInitParameter("username");
 		String checkPassword = getServletConfig().getInitParameter("password");
 
-		if(userID.equals(user) && checkPassword.equals(password)) {
-			request.setAttribute("user", user);
+		String nameReg = "^[A-Z][A-z\\s]{3,}$";
+		if(!user.matches(nameReg)) {
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login.html");
+			PrintWriter out = response.getWriter();
+			out.println("<font color = red>UserName should start with capital letter and has minimum 3 characters</font>");
+			rd.include(request, response);
+		}
+		else if(userID.equals(user) && checkPassword.equals(password)) {
+			request.setAttribute("username", user);
 			request.getRequestDispatcher("LoginSuccess.jsp").include(request, response);
 		}
 		else {

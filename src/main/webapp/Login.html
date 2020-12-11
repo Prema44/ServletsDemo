@@ -6,10 +6,10 @@
 <title>Login Page</title>
 </head>
 <body>
-	<form action="LoginServlet" method="post">
-		Username: <input type="text" name="user"><br>
-		Password: <input type="password" name="password"><br>
-		<input type="submit" value="login"> 
+	<form id = "form" action="LoginServlet" method="post">
+		<input type = "text" name="username" placeholder="Enter UserName" id = "username">
+		<input type = "password" name="password" placeholder="Enter Password" id = "password">
+		<button type = "submit" id = "button" onclick="validate()">Submit</button>
 	</form>
 </body>
 </html>
