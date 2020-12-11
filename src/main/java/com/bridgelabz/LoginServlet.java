@@ -40,10 +40,17 @@ public class LoginServlet extends HttpServlet{
 		String checkPassword = getServletConfig().getInitParameter("password");
 
 		String nameReg = "^[A-Z][A-z\\s]{3,}$";
+		String passReg = "(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-z0-9!@#$%^&*]{8,}$";
 		if(!user.matches(nameReg)) {
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login.html");
 			PrintWriter out = response.getWriter();
 			out.println("<font color = red>UserName should start with capital letter and has minimum 3 characters</font>");
+			rd.include(request, response);
+		}
+		else if(!password.matches(passReg)) {
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/Login.html");
+			PrintWriter out = response.getWriter();
+			out.println("<font color = red>Invalid Password !!</font>");
 			rd.include(request, response);
 		}
 		else if(userID.equals(user) && checkPassword.equals(password)) {
